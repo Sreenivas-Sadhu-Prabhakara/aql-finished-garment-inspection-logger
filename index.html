@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+<title>AQL sampling calculator and inspection logger for garment QC · Open MSME</title>
+<meta name="description" content="Look up the ANSI/ASQ Z1.4 (ISO 2859-1) sample size code letter, sample size and accept/reject numbers for a finished-garment lot, log critical, major and minor defects, and print an ACCEPT or REJECT inspection report for the buyer.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="AQL sampling calculator and inspection logger for garment QC">
+<meta property="og:description" content="Z1.4 sample size and accept/reject numbers for a garment lot, defect log by critical/major/minor, and a printable ACCEPT or REJECT report.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/accent.css">
+<script src="assets/theme-init.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <span class="dot"></span>
+      <b>Open MSME</b>
+      <span class="tag">AQL inspection</span>
+    </a>
+    <span class="sp"></span>
+    <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+    <button class="themer" data-themer type="button">Theme</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Textiles, apparel &amp; handloom · India &amp; Philippines</div>
+      <h1>AQL sampling calculator and inspection logger for garment QC</h1>
+      <p class="lede">Reads the ANSI/ASQ Z1.4 tables for you — sample size code letter, sample size and accept/reject numbers — then logs the critical, major and minor defects found and returns an ACCEPT or REJECT verdict for the lot.</p>
+      <div class="who">
+        <span class="pill">Garment QC inspectors &amp; buying-house QA</span>
+        <span class="pill reg">ANSI/ASQ Z1.4 · ISO 2859-1</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="cols calc">
+
+      <section class="card">
+        <h2>Inspection</h2>
+
+        <div class="field">
+          <label for="lot">Lot or batch size <span class="hint">pieces offered for inspection</span></label>
+          <div class="inp has-suf">
+            <input type="number" id="lot" value="1000" min="1" step="1" inputmode="numeric">
+            <span class="suf">pcs</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Inspection level <span class="hint">General II unless the buyer's clause says otherwise</span></label>
+          <div class="seg" role="group" aria-label="Inspection level">
+            <button type="button" data-level="S-1" aria-pressed="false">S-1</button>
+            <button type="button" data-level="S-2" aria-pressed="false">S-2</button>
+            <button type="button" data-level="S-3" aria-pressed="false">S-3</button>
+            <button type="button" data-level="S-4" aria-pressed="false">S-4</button>
+            <button type="button" data-level="I" aria-pressed="false">General I</button>
+            <button type="button" data-level="II" aria-pressed="true">General II</button>
+            <button type="button" data-level="III" aria-pressed="false">General III</button>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="aql-major">Major AQL</label>
+            <select id="aql-major" aria-label="Major defect AQL"></select>
+          </div>
+          <div class="field">
+            <label for="aql-minor">Minor AQL</label>
+            <select id="aql-minor" aria-label="Minor defect AQL"></select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="aql-critical">Critical AQL <span class="hint">buyers normally write zero tolerance</span></label>
+          <select id="aql-critical" aria-label="Critical defect AQL"></select>
+        </div>
+
+        <h3>Defects found in the sample</h3>
+        <div class="row2">
+          <div class="field">
+            <label for="d-critical">Critical <span class="hint">unsafe / unsaleable</span></label>
+            <div class="inp has-suf">
+              <input type="number" id="d-critical" value="0" min="0" step="1" inputmode="numeric">
+              <span class="suf">no.</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="d-major">Major <span class="hint">likely to be returned</span></label>
+            <div class="inp has-suf">
+              <input type="number" id="d-major" value="0" min="0" step="1" inputmode="numeric">
+              <span class="suf">no.</span>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="d-minor">Minor <span class="hint">departs from the standard, still saleable</span></label>
+          <div class="inp has-suf">
+            <input type="number" id="d-minor" value="0" min="0" step="1" inputmode="numeric">
+            <span class="suf">no.</span>
+          </div>
+        </div>
+
+        <h3>For the report</h3>
+        <div class="row2">
+          <div class="field">
+            <label for="ref">Style / PO reference</label>
+            <input type="text" id="ref" placeholder="ST-4471 / PO 88210" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="inspector">Inspector</label>
+            <input type="text" id="inspector" placeholder="Name or badge" autocomplete="off">
+          </div>
+        </div>
+        <div class="field">
+          <label for="notes">Main defects seen</label>
+          <input type="text" id="notes" placeholder="broken stitch, shade variation, loose thread" autocomplete="off">
+        </div>
+      </section>
+
+      <section class="card sticky">
+        <h2>Result</h2>
+        <div class="result-primary">
+          <div class="k" id="out-k">Verdict — Z1.4 single sampling, normal inspection</div>
+          <div class="v" id="out-verdict">—</div>
+          <div class="sub" id="out-sub">Enter a lot size.</div>
+        </div>
+
+        <h3>Sampling plan</h3>
+        <table class="breakdown">
+          <tbody>
+            <tr><td>Lot size band (Table I)</td><td class="num" id="p-band">—</td></tr>
+            <tr><td>Inspection level</td><td class="num" id="p-level">—</td></tr>
+            <tr><td>Sample size code letter</td><td class="num" id="p-letter">—</td></tr>
+            <tr class="total"><td>Units to draw and inspect</td><td class="num" id="p-draw">—</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Accept / reject</h3>
+        <table class="breakdown">
+          <thead>
+            <tr><th>Class</th><th class="num">AQL</th><th class="num">n</th><th class="num">Found</th><th class="num">Ac</th><th class="num">Re</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Critical</td>
+              <td class="num" id="c-aql">—</td><td class="num" id="c-n">—</td>
+              <td class="num" id="c-found">—</td><td class="num" id="c-ac">—</td><td class="num" id="c-re">—</td>
+            </tr>
+            <tr>
+              <td>Major</td>
+              <td class="num" id="m-aql">—</td><td class="num" id="m-n">—</td>
+              <td class="num" id="m-found">—</td><td class="num" id="m-ac">—</td><td class="num" id="m-re">—</td>
+            </tr>
+            <tr>
+              <td>Minor</td>
+              <td class="num" id="n-aql">—</td><td class="num" id="n-n">—</td>
+              <td class="num" id="n-found">—</td><td class="num" id="n-ac">—</td><td class="num" id="n-re">—</td>
+            </tr>
+            <tr class="total"><td>Lot verdict</td><td class="num" id="v-cell" colspan="5">—</td></tr>
+          </tbody>
+        </table>
+
+        <div class="note" id="plan-note">Reads from the printed table only — the accept number is never calculated or typed in.</div>
+
+        <div class="btnrow">
+          <button class="btn primary" id="log" type="button">Log this inspection</button>
+          <button class="btn ghost" id="print" type="button">Print / Save PDF</button>
+          <button class="btn ghost" id="reset" type="button">Reset</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="card">
+      <h2>Inspection history</h2>
+      <p class="assumptions" id="hist-count">Nothing logged yet. Logged inspections stay on this device and print with the page.</p>
+      <table class="breakdown">
+        <thead>
+          <tr><th>Logged</th><th>Lot &amp; plan</th><th>Found / allowed</th><th>Verdict</th></tr>
+        </thead>
+        <tbody id="hist-rows"></tbody>
+      </table>
+      <div class="btnrow">
+        <button class="btn ghost" id="undo" type="button">Remove last entry</button>
+        <button class="btn ghost" id="clear" type="button">Clear history</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section class="prose">
+      <h2>How it works</h2>
+      <p>Acceptance sampling is a three-step lookup, and the whole job is doing it in the right order. First, the lot size and the inspection level give a <strong>sample size code letter</strong> from Table I of ANSI/ASQ Z1.4 — a lot of 1,000 pieces at General II is code letter <code>J</code>. Second, the code letter gives the <strong>sample size</strong>: <code>J</code> means draw 80 pieces. Third, the sample size row and the AQL column give the <strong>acceptance number Ac</strong> and the <strong>rejection number Re</strong>: at AQL 2.5 that row reads <code>Ac 5 / Re 6</code>. Find 5 majors or fewer and the lot is accepted; find 6 and it is rejected. There is no arithmetic and no rounding anywhere in that chain — a defect count is compared against a number printed in the table.</p>
+      <p>Each defect class is judged on its own AQL against the same sample, so a lot can pass on minors and fail on majors. Critical defects are normally run at zero tolerance, which is the buyer's clause rather than a Z1.4 column, so a single critical defect rejects the lot.</p>
+
+      <p>The arrows are where this goes wrong by hand. Many cells of Table II-A print an arrow instead of a plan, and the arrow has to be followed: <code>↓</code> means use the first plan below it and <code>↑</code> means use the first plan above it — which changes the code letter and therefore the sample size as well as the accept number. Crucially, the arrows are not only at the edges of the table. The zero-acceptance plans sit three diagonal steps away from the <code>Ac 1</code> plans rather than one, so <strong>every AQL column has an up arrow and a down arrow stranded in the middle of it</strong>, directly beneath its <code>Ac 0 / Re 1</code> entry. At AQL 2.5 that entry is code letter <code>C</code>, 5 pieces: <code>D</code> below it points back up to <code>C</code>, and <code>E</code> below that points down to <code>F</code> — 20 pieces, <code>Ac 1 / Re 2</code>. Read the column as a plain ladder and you will take a 13-piece sample with a zero accept number that the standard never prints. The note under Table II-A also covers small lots: “If sample size equals, or exceeds, lot or batch size, do 100 percent inspection.”</p>
+
+      <details class="assumptions">
+        <summary>Tables, levels and AQL values implemented</summary>
+        <p><strong>Standard.</strong> ANSI/ASQ Z1.4, <em>Sampling Procedures and Tables for Inspection by Attributes</em> (the civilian successor to MIL-STD-105E), harmonised with ISO 2859-1. Table I gives the sample size code letters; Table II-A gives the single sampling plans for normal inspection.</p>
+        <p><strong>Inspection levels implemented:</strong> all seven columns of Table I — S-1, S-2, S-3, S-4, General I, General II and General III. General II is the default and is what most buyers mean when their clause says nothing.</p>
+        <p><strong>AQL values implemented:</strong> 0.065, 0.10, 0.15, 0.25, 0.40, 0.65, 1.0, 1.5, 2.5, 4.0, 6.5, 10 and 15 per cent nonconforming, plus a zero-tolerance setting for critical defects. The Table II-A columns below 0.065 and above 15 are <strong>not</strong> implemented; pick an implemented column or read those from the printed standard.</p>
+        <p><strong>Not implemented:</strong> tightened inspection (Table II-B), reduced inspection (Table II-C) and the switching rules between normal, tightened and reduced; double and multiple sampling plans (Tables III and IV); limiting quality and AOQL tables. This tool always applies <strong>normal, single sampling</strong>. If your buyer has switched you to tightened inspection, these numbers do not apply.</p>
+        <p><strong>Lot size bands (Table I rows):</strong> 2–8, 9–15, 16–25, 26–50, 51–90, 91–150, 151–280, 281–500, 501–1,200, 1,201–3,200, 3,201–10,000, 10,001–35,000, 35,001–150,000, 150,001–500,000, 500,001 and over.</p>
+        <p><strong>Sample sizes by code letter:</strong> A&nbsp;2, B&nbsp;3, C&nbsp;5, D&nbsp;8, E&nbsp;13, F&nbsp;20, G&nbsp;32, H&nbsp;50, J&nbsp;80, K&nbsp;125, L&nbsp;200, M&nbsp;315, N&nbsp;500, P&nbsp;800, Q&nbsp;1,250, R&nbsp;2,000. The letters I and O are not used.</p>
+        <p><strong>Acceptance numbers:</strong> across the AQL columns implemented here the only acceptance numbers in Table II-A are 0, 1, 2, 3, 5, 7, 10, 14 and 21, and the rejection number is always one more than the acceptance number. The full table also uses 30 and 44 in the very high AQL columns, which are outside this tool.</p>
+        <p><strong>Where the zero-acceptance plans sit</strong>, by AQL column: 0.065&nbsp;→&nbsp;L (200), 0.10&nbsp;→&nbsp;K (125), 0.15&nbsp;→&nbsp;J (80), 0.25&nbsp;→&nbsp;H (50), 0.40&nbsp;→&nbsp;G (32), 0.65&nbsp;→&nbsp;F (20), 1.0&nbsp;→&nbsp;E (13), 1.5&nbsp;→&nbsp;D (8), 2.5&nbsp;→&nbsp;C (5), 4.0&nbsp;→&nbsp;B (3), 6.5&nbsp;→&nbsp;A (2). The AQL 10 and AQL 15 columns have no zero-acceptance plan at all.</p>
+        <p><strong>Code letters at General II</strong>, lowest lot band to highest: A, B, C, D, E, F, G, H, J, K, L, M, N, P, Q. <strong>General I:</strong> A, A, B, C, C, D, E, F, G, H, J, K, L, M, N. <strong>General III:</strong> B, C, D, E, F, G, H, J, K, L, M, N, P, Q, R.</p>
+        <p><strong>Where two classes end up with different sample sizes.</strong> An arrow is followed per AQL column, so a major AQL and a minor AQL can resolve to different code letters and therefore different sample sizes. The tool shows the sample size for each class and asks you to draw the largest of them; each class is then judged against its own plan.</p>
+        <p><strong>Logged inspections</strong> are kept in this browser's local storage on this device only. Nothing is uploaded anywhere, and clearing your browser data clears the log.</p>
+      </details>
+
+      <div class="note">An AQL plan is a sampling decision, not a measurement of the whole lot: a lot that passes still contains defects, and a lot that fails may be reworked and re-offered. Your buyer's own AQL clause governs — the inspection level, the AQL per defect class, the defect classification and any switching to tightened inspection are theirs to set, and where this tool and the signed clause disagree, the clause wins. Check the numbers against the printed table or the standard itself before signing a report.</div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Open MSME · open-source tool for MSMEs in India &amp; the Philippines · MIT</span>
+    <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a></span>
+  </div>
+</footer>
+
+<script src="assets/aql.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/calc.js"></script>
+</body>
+</html>
